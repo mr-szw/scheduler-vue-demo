@@ -1,6 +1,5 @@
 <template>
-  <el-container>
-    <el-header style="text-align: right; font-size: 12px">
+<div>
       <div style="margin-top: 15px;">
         <el-input placeholder="请输入内容" v-model="searchContent" class="input-with-select">
           <el-select v-model="searchItem" slot="prepend" placeholder="请选择">
@@ -12,8 +11,7 @@
           <el-button slot="append" icon="el-icon-search" @click="doSearch"></el-button>
         </el-input>
       </div>
-    </el-header>
-
+  
     <el-main>
       <el-table :data="tableData">
         <el-table-column prop="date" label="日期" width="140"></el-table-column>
@@ -23,10 +21,13 @@
     </el-main>
 
     <el-pagination background layout="prev, pager, next" :total="1000"></el-pagination>
-    <el-footer style="text-align: right; font-size: 12px">
-      <div style="margin-top: 15px;"></div>
-    </el-footer>
-  </el-container>
+    <!-- <div style="text-align: right; font-size: 12px">
+      <div style="margin-top: 15px;">
+
+      </div>
+      </div> -->
+
+</div>
 </template>
 
 <script>
