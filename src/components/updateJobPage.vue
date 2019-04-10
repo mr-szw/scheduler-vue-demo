@@ -1,5 +1,5 @@
 <template>
-  <el-form ref="form" :model="fromDataInfo" label-width="120px" size="medium" label-position="left">
+  <el-form ref="form" :model="fromDataInfo" label-width="140px" size="medium" label-position="left">
     <div :class="['elInputStyle']">
       <el-form-item label="任务ID">
         <el-input :disabled="true" v-model="fromDataInfo.jobId"></el-input>
@@ -64,14 +64,14 @@
 
       <el-form-item label="任务状态">
         <el-radio-group v-model="fromDataInfo.status" size="medium">
-          <el-radio border label="新建"></el-radio>
-          <el-radio border label="运行"></el-radio>
-          <el-radio border label="停止"></el-radio>
+          <el-radio border label="1">新建</el-radio>
+          <el-radio border label="2">运行</el-radio>
+          <el-radio border label="3">停止</el-radio>
         </el-radio-group>
       </el-form-item>
 
       <el-form-item size="large">
-        <el-button type="primary" @click="onSubmit">立即创建</el-button>
+        <el-button type="primary" @click="formSubmit">立即创建</el-button>
         <el-button type="reset">取消</el-button>
       </el-form-item>
     </div>
@@ -103,7 +103,7 @@ export default {
         //任务执行时间
         cronStr: "",
         //任务状态
-        status: "",
+        status: "1",
         //负责人邮箱
         welfareEmail: "",
         //描述信息
@@ -112,8 +112,17 @@ export default {
     };
   },
   methods: {
-    onSubmit() {
+    formSubmit() {
       console.log("submit!");
+      this.$ajax({
+        method: 'post',
+        url: '/api/',
+        data: this.fromDataInfo
+      }).then(response => {
+        alert("done ")
+      }).catch(function(err){
+          alert("Error")
+      });
     }
   }
 };
