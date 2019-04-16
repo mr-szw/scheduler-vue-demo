@@ -1,8 +1,8 @@
 <template>
-  <el-form ref="form" :model="fromDataInfo" label-width="140px" size="medium" label-position="left">
+  <el-form ref="form" :model="formDataInfo" label-width="140px" size="medium" label-position="left">
     <div :class="['elInputStyle']">
       <el-form-item label="任务ID">
-        <el-input :disabled="true" v-model="fromDataInfo.jobId"></el-input>
+        <el-input :disabled="true" v-model="formDataInfo.jobId"></el-input>
       </el-form-item>
 
       <el-form-item
@@ -11,7 +11,7 @@
           { required: true, message: '请输入任务名称', trigger: 'blur' }
         ]"
       >
-        <el-input v-model="fromDataInfo.name"></el-input>
+        <el-input v-model="formDataInfo.name"></el-input>
       </el-form-item>
 
       <el-form-item
@@ -20,7 +20,7 @@
           { required: true, message: '请输入任务所属集群', trigger: 'blur' }
         ]"
       >
-        <el-input v-model="fromDataInfo.clusterName"></el-input>
+        <el-input v-model="formDataInfo.clusterName"></el-input>
       </el-form-item>
 
       <el-form-item
@@ -29,7 +29,7 @@
           { required: true, message: '请输入任务执行类名', trigger: 'blur' }
         ]"
       >
-        <el-input v-model="fromDataInfo.jobClassName" prop="jobClassName"></el-input>
+        <el-input v-model="formDataInfo.jobClassName" prop="jobClassName"></el-input>
       </el-form-item>
 
       <el-form-item
@@ -38,14 +38,14 @@
           { required: true, message: '请输入任务执行方法名', trigger: 'blur' }
         ]"
       >
-        <el-input v-model="fromDataInfo.jobMethodName"></el-input>
+        <el-input v-model="formDataInfo.jobMethodName"></el-input>
       </el-form-item>
 
       <el-form-item label="方法参数名">
-        <el-input v-model="fromDataInfo.methodParamName" prop="methodParamName"></el-input>
+        <el-input v-model="formDataInfo.methodParamName" prop="methodParamName"></el-input>
       </el-form-item>
       <el-form-item label="方法参数值">
-        <el-input v-model="fromDataInfo.methodParamValue"></el-input>
+        <el-input v-model="formDataInfo.methodParamValue"></el-input>
       </el-form-item>
 
       <el-form-item
@@ -55,15 +55,15 @@
           { type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur', 'change'] }
         ]"
       >
-        <el-input v-model="fromDataInfo.welfareEmail"></el-input>
+        <el-input v-model="formDataInfo.welfareEmail"></el-input>
       </el-form-item>
 
       <el-form-item label="任务描述信息">
-        <el-input type="textarea" v-model="fromDataInfo.description"></el-input>
+        <el-input type="textarea" v-model="formDataInfo.description"></el-input>
       </el-form-item>
 
       <el-form-item label="任务状态">
-        <el-radio-group v-model="fromDataInfo.status" size="medium">
+        <el-radio-group v-model="formDataInfo.status" size="medium">
           <el-radio border label="1">新建</el-radio>
           <el-radio border label="2">运行</el-radio>
           <el-radio border label="3">停止</el-radio>
@@ -82,10 +82,16 @@
 
 
 <script>
+
+
+import axios from 'axios' //引入axios
+
+axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
 export default {
+
   data() {
     return {
-      fromDataInfo: {
+      formDataInfo: {
         //任务ID
         jobId: "",
         //任务执行集群
@@ -109,20 +115,26 @@ export default {
         //描述信息
         description: ""
       }
-    };
+    }
   },
   methods: {
     formSubmit() {
       console.log("submit!");
-      this.$ajax({
+
+      axios({
+        url: 'http://localhost:8021/scheduler/post/job/detail',
+//                url: 'http://10.40.30.35:8014/scheduler/post/job/detail',
+
         method: 'post',
-        url: '/api/',
-        data: this.fromDataInfo
-      }).then(response => {
-        alert("done ")
-      }).catch(function(err){
-          alert("Error")
-      });
+         transformRequest: [function (data) {
+          // 对 data 进行任意转换处理
+          return JSON.stringify(data)
+        }],
+        headers: {
+           "Content-Type": 'application/x-www-form-urlencoded'
+        },
+        data:  Qs.stringify(formDataInfo)
+      })
     }
   }
 };

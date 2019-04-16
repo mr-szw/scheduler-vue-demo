@@ -11,7 +11,7 @@ import axios from 'axios' //引入axios
 
 Vue.config.productionTip = false
 
-Vue.prototype.$ajax=axios //修改Vue的原型属性
+//Vue.prototype.$ajax=axios //修改Vue的原型属性
 
 Vue.use(ElementUI)
 /* eslint-disable no-new */
