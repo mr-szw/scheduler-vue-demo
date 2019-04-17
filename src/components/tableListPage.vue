@@ -13,10 +13,16 @@
       </div>
   
     <el-main>
-      <el-table :data="tableData">
-        <el-table-column prop="date" label="日期" width="140"></el-table-column>
-        <el-table-column prop="name" label="姓名" width="120"></el-table-column>
-        <el-table-column prop="address" label="地址"></el-table-column>
+      <el-table :data="tableJobList">
+        <el-table-column prop="jobId" label="任务ID" width="140" />
+        <el-table-column prop="jobName" label="任务名称" width="140" />
+        <el-table-column prop="clusterName" label="任务执行集群" width="140" />
+        <el-table-column prop="jobClassName" label="执行类名" width="140"/>
+        <el-table-column prop="jobMethodName" label="执行方法名" width="140" />
+        <el-table-column prop="methodParamValue" label="方法参数值" width="140" />
+        <el-table-column prop="cronStr" label="任务执行时间" width="140" />
+        <el-table-column prop="status" label="任务状态" width="140" />
+        <el-table-column prop="" label="操作" width="140" />
       </el-table>
     </el-main>
 
@@ -33,15 +39,9 @@
 <script>
 export default {
   data() {
-    const item = {
-      date: "2016-05-02",
-      name: "王小虎",
-      address: "上海市普陀区金沙江路 1518 弄"
-    };
     return {
       searchItem: "jobId",
       searchContent: "",
-      tableData: Array(10).fill(item)
     };
   },
   methods: {
@@ -65,21 +65,14 @@ export default {
         //做请求
       }
     }
+  },
+  props: {
+    tableJobList: {
+      type: Array,
+      required: false
+    }
   }
 };
 </script>
 
 
-
-
-<style>
-.el-header {
-  background-color: #b3c0d1;
-  color: #333;
-  line-height: 0px;
-}
-
-.el-aside {
-  color: #333;
-}
-</style>

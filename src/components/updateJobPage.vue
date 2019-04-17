@@ -11,7 +11,7 @@
           { required: true, message: '请输入任务名称', trigger: 'blur' }
         ]"
       >
-        <el-input v-model="formDataInfo.name"></el-input>
+        <el-input v-model="formDataInfo.jobName"></el-input>
       </el-form-item>
 
       <el-form-item
@@ -41,9 +41,16 @@
         <el-input v-model="formDataInfo.jobMethodName"></el-input>
       </el-form-item>
 
-      <el-form-item label="方法参数名">
-        <el-input v-model="formDataInfo.methodParamName" prop="methodParamName"></el-input>
+      <el-form-item
+        label="运行时间Cron"
+        :rules="[
+          { required: true, message: '请输入任务执行运行时间Cron', trigger: 'blur' }
+        ]"
+      >
+        <el-input v-model="formDataInfo.cronStr"></el-input>
       </el-form-item>
+
+
       <el-form-item label="方法参数值">
         <el-input v-model="formDataInfo.methodParamValue"></el-input>
       </el-form-item>
@@ -84,9 +91,7 @@
 <script>
 
 
-import axios from 'axios' //引入axios
 
-axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
 export default {
 
   data() {
@@ -119,30 +124,12 @@ export default {
   },
   methods: {
     formSubmit() {
+
       console.log("submit!");
 
-      axios({
-        url: 'http://localhost:8021/scheduler/post/job/detail',
-//                url: 'http://10.40.30.35:8014/scheduler/post/job/detail',
+      this.$emit('updateJobInfoMethod', this.formDataInfo);
 
-        method: 'post',
-         transformRequest: [function (data) {
-          // 对 data 进行任意转换处理
-          return JSON.stringify(data)
-        }],
-        headers: {
-           "Content-Type": 'application/x-www-form-urlencoded'
-        },
-        data:  Qs.stringify(formDataInfo)
-      })
     }
   }
 };
 </script>
-
-<style>
-.elInputStyle {
-  float: left;
-  width: 600px;
-}
-</style>
