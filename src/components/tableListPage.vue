@@ -61,11 +61,9 @@
       },
       //跳到 详情页进行修改
       updateJobInfoMethod(rowInfo) {
-        console.log("点击修改");
+        console.log("-------------To Update_________________");
         console.log(rowInfo);
-        this.$emit('updateJobDetailMethod', rowInfo);
-
-
+        this.$emit('updateJobDetailMethod', rowInfo['jobId']);
       }
     },
     props: {

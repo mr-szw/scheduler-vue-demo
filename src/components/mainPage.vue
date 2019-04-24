@@ -16,7 +16,7 @@
     <el-tab-pane label="添加任务页" name="features-add">
       <!-- 绑定触发事件 [updateJobInfoMethod] 由 updateJobInfoParent 执行  -->
       <UpdateJobPage
-        v-bind:formDataInfo = "jobDetailInfoParent"
+        v-bind:jobFormDetailInfo = "jobDetailInfoParent"
         v-on:updateJobInfoMethod="updateJobInfoParent"
       />
     </el-tab-pane>
@@ -71,7 +71,6 @@
         },
         //任务详情
         jobDetailInfoParent: {
-
         }
       };
     },
@@ -111,7 +110,6 @@
               type: 'success'
             });
           } else {
-            console.log("Code not 0 ----");
             _this.$message({
               message: response.data.codeMsg,
               showClose: true,
@@ -124,7 +122,7 @@
       //加载列表数据
       loadJobList(pageIndex) {
         let _this = this;
-        console.log("Load job list  ---- ");
+        console.log("___________Load job list___________");
         let formDate = {
           'pageIndex': pageIndex,
           'pageSize': 10,
@@ -139,22 +137,10 @@
         }).then(function (response) {
           console.log(response);
           if (response.data.code === 0) {
-            console.log(response.data);
             _this.tableJobListInfoParent.tableJobList = response.data.data.schedulerJobList;
             _this.tableJobListInfoParent.currentPageNum = response.data.data.currentPageNum;
             _this.tableJobListInfoParent.totalPageNum = response.data.data.totalPageNum;
-            console.log("__________________________");
-            console.log(_this.tableJobListInfoParent.tableJobList);
-            console.log(_this.tableJobListInfoParent.currentPageNum);
-            console.log(_this.tableJobListInfoParent.totalPageNum);
-            console.log(_this.tableJobListInfoParent);
-            _this.$message({
-              message: '恭喜你，这是一条成功消息',
-              showClose: true,
-              center: true,
-              type: 'success'
-            });
-
+            console.log("___________Success_______________");
           } else {
             console.log("Code not 0 ----");
             _this.$message({
@@ -166,7 +152,6 @@
           }
         })
         .catch(function (error) {
-          console.log("Error ----");
           console.log(error);
           _this.$message.error("系统异常");
         });
@@ -195,17 +180,12 @@
         }
       },
       //回显 或 编辑 任务详情
-      updateJobDetailMethodParent(rowInfo) {
-        console.log('updateJobDetailMethodParent =========== > ');
-        console.log(rowInfo);
-
-        console.log(rowInfo['jobId']);
-        let rowInfoJobId = rowInfo['jobId'];
-
+      updateJobDetailMethodParent(jobId) {
+        console.log("___________Load detail________");
+        console.log(jobId);
         let _this = this;
-        console.log("Load job detail  ---- ");
         let formDate = {
-          'jobId': rowInfoJobId
+          'jobId': jobId
         };
         axios({
           url: localUrl + searchJobPath + "?" + Qs.stringify(formDate),
@@ -216,18 +196,9 @@
         }).then(function (response) {
           console.log(response);
           if (response.data.code === 0) {
-            console.log(response.data);
             _this.jobDetailInfoParent = response.data.data.schedulerJobDetail;
-            console.log("__________________________");
             console.log(_this.jobDetailInfoParent);
-            _this.$message({
-              message: '恭喜你，这是一条成功消息',
-              showClose: true,
-              center: true,
-              type: 'success'
-            });
           } else {
-            console.log("Code not 0 ----");
             _this.$message({
               message: response.data.codeMsg,
               showClose: true,
@@ -241,15 +212,13 @@
           console.log(error);
           _this.$message.error("系统异常");
         });
-
         //切换位置
         this.activePageName = 'features-add';
-
       }
     },
     //初始加载 仅执行一次
     created: function () {
-      console.log("mounted --- autoLoading");
+      console.log("----------Auto Loading --------------");
       this.loadJobList(pageIndexNum);
     }
   };

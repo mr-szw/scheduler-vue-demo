@@ -1,8 +1,8 @@
 <template>
-  <el-form ref="form" :model="formDataInfo" label-width="140px" :rules="formRules" size="medium"
+  <el-form ref="scheduleForm" :model="formDataInfo" label-width="140px" :rules="formRules" size="medium"
            label-position="left">
     <div :class="['elInputStyle']">
-      <el-form-item label="任务ID">
+      <el-form-item label="任务ID" prop="jobId">
         <el-input :disabled="true" v-model="formDataInfo.jobId"></el-input>
       </el-form-item>
 
@@ -34,7 +34,7 @@
         <el-input v-model="formDataInfo.welfareEmail"></el-input>
       </el-form-item>
 
-      <el-form-item label="任务描述信息">
+      <el-form-item label="任务描述信息" prop="description">
         <el-input type="textarea" v-model="formDataInfo.description"></el-input>
       </el-form-item>
 
@@ -47,10 +47,13 @@
       </el-form-item>
 
       <el-form-item size="large">
-        <el-button ref="createSubmitBtn" type="primary" @click="formSubmit('form')">立即创建</el-button>
-        <el-button type="reset">取消</el-button>
+        <el-button type="primary" @click="formSubmit('scheduleForm')">立即提交</el-button>
+        <el-button type="reset" @click="reSetFormData('scheduleForm')">清除所有</el-button>
 
       </el-form-item>
+
+      {{jobFormDetailInfo}}
+      {{formDataInfo}}
     </div>
   </el-form>
 </template>
@@ -58,12 +61,9 @@
 
 <script>
 
-
   export default {
-
     data() {
       return {
-
         formRules: {
           jobName: [
             {required: true, message: '请输入任务执行类名', trigger: 'blur'}
@@ -90,8 +90,9 @@
       }
     },
     methods: {
-      formSubmit(form) {
-        this.$refs[form].validate((valid) => {
+      //表单提交
+      formSubmit(scheduleForm) {
+        this.$refs[scheduleForm].validate((valid) => {
           if (valid) {
             console.log("submit!");
             this.$emit('updateJobInfoMethod', this.formDataInfo);
@@ -100,34 +101,25 @@
             return false;
           }
         });
+      },
+      //重置表单数据
+      reSetFormData(scheduleForm) {
+        console.log("Reset --- ");
+        this.$refs[scheduleForm].resetFields();
       }
     },
     props: {
-      //父组件传入的表单数据详情内容
-      formDataInfo: {
-        //任务ID
-        jobId: "",
-        //任务执行集群
-        clusterName: "",
-        //声明任务名
-        jobName: "",
-        //执行类名
-        jobClassName: "",
-        //执行方法名
-        jobMethodName: "",
-        //方法参数名 仅限一个值
-        methodParamName: "",
-        //方法参数值 仅限一个值
-        methodParamValue: "",
-        //任务执行时间
-        cronStr: "",
-        //任务状态
-        status: "1",
-        //负责人邮箱
-        welfareEmail: "",
-        //描述信息
-        description: ""
+      jobFormDetailInfo: {
+        status: 1
+      }
+    },
+    computed: {
+      formDataInfo: function (){
+        console.log("computed formDataInfo info ");
+        return this.jobFormDetailInfo
       }
     }
+
+
   };
 </script>
