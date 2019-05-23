@@ -33,7 +33,7 @@
 
 <script>
   let localUrl = 'http://localhost:8021';
-  let serviceUrl = 'http://10.40.30.35:8014';
+  let serviceUrl = '';
 
   //任务的新建或更新
   let updateJobPath = '/scheduler/post/job/detail';
